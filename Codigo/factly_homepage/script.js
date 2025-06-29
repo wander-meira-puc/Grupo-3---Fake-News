@@ -56,6 +56,7 @@ function attachRatingListeners() {
 }
 
 let noticias = [];
+let noticiasFiltradas = [];
 let currentPage = 0;
 const noticiasPorPagina = 4;
 
@@ -64,7 +65,7 @@ function renderNoticias() {
   grid.innerHTML = '';
   const start = currentPage * noticiasPorPagina;
   const end = start + noticiasPorPagina;
-  const noticiasParaExibir = noticias.slice(start, end);
+  const noticiasParaExibir = noticiasFiltradas.slice(start, end);
 
   noticiasParaExibir.forEach(noticia => {
     const card = document.createElement('div');
@@ -91,13 +92,37 @@ function renderNoticias() {
   attachRatingListeners();
 }
 
+function pesquisarNoticias(termo) {
+  const termoPesquisa = termo.toLowerCase().trim();
+  
+  if (termoPesquisa === '') {
+    noticiasFiltradas = [...noticias];
+  } else {
+    noticiasFiltradas = noticias.filter(noticia => 
+      noticia.titulo.toLowerCase().includes(termoPesquisa) ||
+      noticia.descricao.toLowerCase().includes(termoPesquisa) ||
+      noticia.autor.toLowerCase().includes(termoPesquisa)
+    );
+  }
+  
+  currentPage = 0; // Resetar para primeira página
+  renderNoticias();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   fetch('noticias.json')
     .then(response => response.json())
     .then(data => {
       noticias = data;
+      noticiasFiltradas = [...noticias]; // Inicializar com todas as notícias
       renderNoticias();
     });
+
+  // Event listener para a barra de pesquisa
+  const searchInput = document.querySelector('.search-input');
+  searchInput.addEventListener('input', (e) => {
+    pesquisarNoticias(e.target.value);
+  });
 
   document.getElementById('prev-news').addEventListener('click', () => {
     if (currentPage > 0) {
@@ -106,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   document.getElementById('next-news').addEventListener('click', () => {
-    if ((currentPage + 1) * noticiasPorPagina < noticias.length) {
+    if ((currentPage + 1) * noticiasPorPagina < noticiasFiltradas.length) {
       currentPage++;
       renderNoticias();
     }
