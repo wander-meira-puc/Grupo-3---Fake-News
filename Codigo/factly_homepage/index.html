@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factly - Descubra a verdade! Combata a desinformação.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="header">
+        <nav class="nav-menu">
+            <div class="nav-left">
+                <a href="#" class="nav-link">Home</a>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="nav-link">sobre</a>
+                <a href="#" class="nav-link">Contato/suporte</a>
+                <a href="#" class="nav-link">Cadastro/login</a>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="main-content">
+
+        <div class="logo-container">
+            <div class="logo">
+                <img src="images/logo_factly.png" alt="Factly Logo" class="logo-image">
+                <h1 class="logo-text">factly</h1>
+            </div>
+            <p class="tagline">Descubra a verdade! Combata a desinformação.</p>
+        </div>
+
+
+        <div class="search-container">
+            <div class="search-bar">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" placeholder="Pesquisar informações" class="search-input">
+            </div>
+        </div>
+
+        <div class="question-container">
+            <p class="question-text">Esta em dúvida sobre alguma informação?</p>
+            <button class="post-button">Faça um Post</button>
+        </div>
+
+        <h2 class="news-title">Notícias marcantes das ultimas 24Hrs</h2>
+
+        <div class="news-carousel-controls" style="text-align:center; margin-bottom:10px;">
+            <button id="prev-news" class="post-button" style="margin-right:10px;">&#8592; Anterior</button>
+            <button id="next-news" class="post-button">Próxima &#8594;</button>
+        </div>
+        <div class="news-grid">
+        </div>
+    </main>
+<script src="script.js"></script>
+</body>
+</html>

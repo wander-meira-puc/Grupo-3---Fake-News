@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "titulo": "É FAKE vídeo do papa Leão XIV agradecendo à China por ajuda em Gaza e criticando Trump",
+    "imagem": "images/img1.avif",
+    "descricao": "Circula nas redes um vídeo falso do papa Leão XIV, que nunca existiu, agradecendo à China e criticando Trump.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 2,
+    "titulo": "É FAKE que Código de Trânsito Brasileiro considere que acidente entre carro e moto seja atropelamento",
+    "imagem": "images/img1 .avif",
+    "descricao": "Mensagem viral distorce informações do CTB sobre acidentes de trânsito.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 3,
+    "titulo": "É FAKE anúncio que promete 150 mil vagas de agente escolar e imita site do MEC",
+    "imagem": "images/img2.webp",
+    "descricao": "Golpistas usam layout do MEC para enganar candidatos a vagas inexistentes.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 4,
+    "titulo": "É FAKE que Ancelotti chegou ao Brasil usando camisa da seleção e charuto, foto foi produzida com IA",
+    "imagem": "images/img3.avif",
+    "descricao": "Imagem viralizada foi gerada por inteligência artificial, não é real.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 5,
+    "titulo": "É FAKE que vacina contra gripe causa gripe em quem toma",
+    "imagem": "images/img4.jpg",
+    "descricao": "Vacinas contra gripe são seguras e não causam a doença.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 6,
+    "titulo": "É FAKE que água com limão cura Covid-19",
+    "imagem": "images/img5.jpg",
+    "descricao": "Não há comprovação científica de que água com limão previna ou cure Covid-19.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 7,
+    "titulo": "É FAKE que 5G causa danos à saúde humana",
+    "imagem": "images/img6.jpg",
+    "descricao": "Tecnologia 5G é segura e não há evidências de riscos à saúde.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 8,
+    "titulo": "É FAKE que leite materno perde propriedades após 6 meses",
+    "imagem": "images/img7.jpg",
+    "descricao": "Leite materno continua sendo nutritivo após 6 meses de amamentação.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 9,
+    "titulo": "É FAKE que vacina contra HPV causa infertilidade",
+    "imagem": "images/img8.jpg",
+    "descricao": "Vacina contra HPV é segura e não afeta fertilidade.",
+    "autor": "ADM user verified",
+    "link": "#"
+  },
+  {
+    "id": 10,
+    "titulo": "É FAKE que chá de boldo cura problemas no fígado",
+    "imagem": "images/img9.jpg",
+    "descricao": "Não há comprovação científica de que chá de boldo cure doenças hepáticas.",
+    "autor": "ADM user verified",
+    "link": "#"
+  }
+] 
