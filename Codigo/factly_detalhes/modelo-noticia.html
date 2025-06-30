@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITULO_NOTICIA}} - Factly</title>
+    <link rel="stylesheet" href="styles-detalhes.css">
+</head>
+<body>
+    <!-- Cabeçalho com navegação -->
+    <header class="header">
+        <nav class="nav-menu">
+            <div class="nav-left">
+                <a href="{{LINK_HOME}}" class="nav-link">Home</a>
+            </div>
+            <div class="nav-center">
+                <div class="Logo">
+                    <img src="imgs/logo_factly.png" alt="Factly Logo" class="logo-img">
+                    <h1 class="logo-text">factly</h1>
+                </div>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="nav-link">sobre</a>
+                <a href="#" class="nav-link">Contato/suporte</a>
+                <a href="#" class="nav-link">Cadastro/login</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb de navegação -->
+    <div class="caminho">
+        <p>
+            <a href="{{LINK_HOME}}">Home</a> &gt;
+            <a href="#">Verificação</a> &gt;
+            <span>{{BREADCRUMB_TITULO}}</span>
+        </p>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <main class="main-container">
+        <div class="content-wrapper">
+            <!-- Artigo principal -->
+            <article class="main-article">
+                <!-- Cabeçalho do artigo -->
+                <header class="article-header">
+                    <div class="fake-badge">
+                        <span class="fake-label-large">{{VEREDICTO}}</span>
+                    </div>
+                    <h1 class="article-title">{{TITULO_COMPLETO}}</h1>
+                    
+                    <div class="article-meta">
+                        <div class="author-info">
+                            <span class="author-icon">👤</span>
+                            <span class="author-name">{{AUTOR}}</span>
+                        </div>
+                        <div class="publish-info">
+                            <time datetime="{{DATA_ISO}}">{{DATA_FORMATADA}}</time>
+                            <span class="update-time">{{TEMPO_ATUALIZACAO}}</span>
+                        </div>
+                        <div class="rating-article">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-text">{{AVALIACAO}}</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Imagem principal -->
+                <figure class="main-image">
+                    <img src="{{IMAGEM_PRINCIPAL}}" alt="{{ALT_IMAGEM}}" class="article-image">
+                    <figcaption class="image-caption">
+                        {{LEGENDA_IMAGEM}}
+                    </figcaption>
+                </figure>
+
+                <!-- Resumo da verificação -->
+                <div class="verification-summary">
+                    <h2 class="summary-title">Resumo da Verificação</h2>
+                    <div class="summary-content">
+                        <p><strong>Alegação:</strong> {{ALEGACAO}}</p>
+                        <p><strong>Veredicto:</strong> <span class="fake-text">{{VEREDICTO}}</span></p>
+                        <p><strong>Justificativa:</strong> {{JUSTIFICATIVA}}</p>
+                    </div>
+                </div>
+
+                <!-- Conteúdo do artigo -->
+                <div class="article-content">
+                    <p class="lead-paragraph">
+                        {{PARAGRAFO_INTRODUCAO}}
+                    </p>
+
+                    <h3>Por que é {{VEREDICTO_MINUSCULO}}</h3>
+                    <p>
+                        {{EXPLICACAO_VERIFICACAO}}
+                    </p>
+
+                    <ul class="verification-points">
+                        {{PONTOS_VERIFICACAO}}
+                    </ul>
+
+                    <h3>{{TITULO_SECAO_ADICIONAL}}</h3>
+                    <p>
+                        {{CONTEUDO_SECAO_ADICIONAL}}
+                    </p>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Atenção</h4>
+                        <p>{{AVISO_IMPORTANTE}}</p>
+                    </div>
+
+                    <h3>{{TITULO_DICAS_OU_BENEFICIOS}}</h3>
+                    <ul class="verification-points">
+                        {{LISTA_DICAS_OU_BENEFICIOS}}
+                    </ul>
+
+                    <h3>Fontes consultadas</h3>
+                    <ul class="sources-list">
+                        {{LISTA_FONTES}}
+                    </ul>
+                </div>
+
+                <!-- Ações do artigo -->
+                <div class="article-actions">
+                    <div class="share-section">
+                        <h4>Compartilhe esta verificação:</h4>
+                        <div class="share-buttons">
+                            <button class="share-btn whatsapp">WhatsApp</button>
+                            <button class="share-btn facebook">Facebook</button>
+                            <button class="share-btn twitter">Twitter</button>
+                            <button class="share-btn copy">Copiar link</button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-section">
+                        <button class="report-btn">Reportar erro nesta verificação</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Outras verificações</h3>
+                    <div class="related-news">
+                        {{NOTICIAS_RELACIONADAS}}
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Dica de verificação</h3>
+                    <div class="tip-box">
+                        <h4>{{TITULO_DICA}}</h4>
+                        <ul>
+                            {{LISTA_DICAS_VERIFICACAO}}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="cta-box">
+                        <h4>Tem uma dúvida?</h4>
+                        <p>Envie para nossa equipe verificar!</p>
+                        <button class="cta-button">Enviar para verificação</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Factly</h4>
+                <p>Combatendo a desinformação com fatos verificados.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links úteis</h4>
+                <ul>
+                    <li><a href="#">Como verificamos</a></li>
+                    <li><a href="#">Metodologia</a></li>
+                    <li><a href="#">Equipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <ul>
+                    <li><a href="#">Fale conosco</a></li>
+                    <li><a href="#">Reportar erro</a></li>
+                    <li><a href="#">Sugestões</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Factly. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

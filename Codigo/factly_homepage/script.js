@@ -92,7 +92,7 @@ function renderNoticias() {
       <div class="news-content">
         <h3 class="news-headline"><span class="${labelClass}">${labelText}</span> ${noticia.titulo}</h3>
         <p>${noticia.descricao}</p>
-        <a href="${noticia.link}" class="read-more">Saiba mais...</a>
+        <a href="/Codigo/factly_detalhes/noticia-${noticia.id}.html" class="read-more">Saiba mais...</a>
         <div class="news-footer">
           <div class="user-info">
             <span class="user-icon">👤</span>
