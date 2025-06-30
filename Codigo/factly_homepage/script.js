@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Criar botão de debug temporário
     const debugBtn = document.createElement('button');
     debugBtn.textContent = '🔄 Recarregar Notícias (Debug)';
-    debugBtn.style.cssText = 'position: fixed; top: 10px; right: 10px; z-index: 9999; background: #ff6b6b; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;';
+    debugBtn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 9999; background: #ff6b6b; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;';
     debugBtn.onclick = () => {
       console.log('🔄 Forçando recarregamento das notícias...');
       location.reload();
