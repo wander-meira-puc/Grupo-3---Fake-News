@@ -29,7 +29,19 @@ $avaliacoes[$newsId]['total'] += $nota;
 $avaliacoes[$newsId]['count']++;
 
 // Salva novamente no arquivo
-file_put_contents($arquivo, json_encode($avaliacoes, JSON_PRETTY_PRINT));
+// Salva novamente no arquivo com bloqueio para evitar condições de corrida
+if ($fp = fopen($arquivo, 'w')) {
+    if (flock($fp, LOCK_EX)) {
+        fwrite($fp, json_encode($avaliacoes, JSON_PRETTY_PRINT));
+        fflush($fp);
+        flock($fp, LOCK_UN);
+    }
+    fclose($fp);
+} else {
+    http_response_code(500);
+    echo json_encode(['erro' => 'Falha ao salvar avaliação']);
+    exit;
+}
 
 // Retorna a média atualizada
 $media = $avaliacoes[$newsId]['total'] / $avaliacoes[$newsId]['count'];

@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
   {
     "id": 1,
     "titulo": "É FAKE vídeo do papa Leão XIV agradecendo à China por ajuda em Gaza e criticando Trump",
@@ -80,3 +81,105 @@
     "link": "#"
   }
 ] 
+=======
+    {
+        "id": 11,
+        "titulo": "que fazer 3 refeições ao dia é o ideal para a saúde humana",
+        "imagem": "..\/imgs\/noticia_1751241424_3451.jpg",
+        "descricao": "teste descrição",
+        "autor": "Luan Costa",
+        "tipo": "TRUE",
+        "link": ""
+    },
+    {
+        "id": 1,
+        "titulo": "vídeo do papa Leão XIV agradecendo à China por ajuda em Gaza e criticando Trump",
+        "imagem": "..\/imgs\/img1.avif",
+        "descricao": "Circula nas redes um vídeo falso do papa Leão XIV, que nunca existiu, agradecendo à China e criticando Trump.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 2,
+        "titulo": "que Código de Trânsito Brasileiro considere que acidente entre carro e moto seja atropelamento",
+        "imagem": "..\/imgs\/img1 .avif",
+        "descricao": "Mensagem viral distorce informações do CTB sobre acidentes de trânsito.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 3,
+        "titulo": "anúncio que promete 150 mil vagas de agente escolar e imita site do MEC",
+        "imagem": "..\/imgs\/img2.webp",
+        "descricao": "Golpistas usam layout do MEC para enganar candidatos a vagas inexistentes.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 4,
+        "titulo": "que Ancelotti chegou ao Brasil usando camisa da seleção e charuto, foto foi produzida com IA",
+        "imagem": "..\/imgs\/img3.avif",
+        "descricao": "Imagem viralizada foi gerada por inteligência artificial, não é real.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 5,
+        "titulo": "que vacina contra gripe causa gripe em quem toma",
+        "imagem": "..\/imgs\/img4.jpg",
+        "descricao": "Vacinas contra gripe são seguras e não causam a doença.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 6,
+        "titulo": "que água com limão cura Covid-19",
+        "imagem": "..\/imgs\/img5.jpg",
+        "descricao": "Não há comprovação científica de que água com limão previna ou cure Covid-19.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 7,
+        "titulo": "que 5G causa danos à saúde humana",
+        "imagem": "..\/imgs\/img6.jpg",
+        "descricao": "Tecnologia 5G é segura e não há evidências de riscos à saúde.",
+        "autor": "ADM user verified",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 8,
+        "titulo": "que leite materno perde propriedades após 6 meses",
+        "imagem": "..\/imgs\/img7.jpg",
+        "descricao": "Leite materno continua sendo nutritivo após 6 meses de amamentação.",
+        "autor": "Lucas Tadeu",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 9,
+        "titulo": "que vacina contra HPV causa infertilidade",
+        "imagem": "..\/imgs\/img8.jpg",
+        "descricao": "Vacina contra HPV é segura e não afeta fertilidade.",
+        "autor": "Lucas Tadeu",
+        "tipo": "FAKE",
+        "link": "#"
+    },
+    {
+        "id": 10,
+        "titulo": "que chá de boldo cura problemas no fígado",
+        "imagem": "..\/imgs\/img9.jpg",
+        "descricao": "Não há comprovação científica de que chá de boldo cure doenças hepáticas.",
+        "autor": "Lucas Tadeu",
+        "tipo": "FAKE",
+        "link": "#"
+    }
+]
+>>>>>>> 9e933e47079d59cfe4cd44f5abefadf1102239fb
