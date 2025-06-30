@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.querySelector('.search-input');
   searchInput.addEventListener('input', (e) => {
     pesquisarNoticias(e.target.value);
-  });
+    });
 
   document.getElementById('prev-news').addEventListener('click', () => {
     if (currentPage > 0) {
