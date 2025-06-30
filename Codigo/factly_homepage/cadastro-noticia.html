@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Nova Notícia - Factly</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-menu">
+            <div class="nav-left">
+                <a href="index.html" class="nav-link">Home</a>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="nav-link">sobre</a>
+                <a href="#" class="nav-link">Contato/suporte</a>
+                <a href="#" class="nav-link">Cadastro/login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="../imgs/logo_factly.png" alt="Factly Logo" class="logo-image">
+                <h1 class="logo-text">factly</h1>
+            </div>
+            <p class="tagline">Cadastre uma nova verificação</p>
+        </div>
+
+        <div class="form-container">
+            <h2 class="form-title">Cadastrar Nova Notícia</h2>
+            
+            <div id="message-container"></div>
+
+            <form id="cadastro-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="titulo" class="form-label">Título da Notícia *</label>
+                    <input type="text" id="titulo" name="titulo" class="form-input" required 
+                           placeholder="Ex: (tipo de verificação)...">
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao" class="form-label">Descrição *</label>
+                    <textarea id="descricao" name="descricao" class="form-textarea" required 
+                              placeholder="Descreva brevemente o conteúdo da verificação..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="autor" class="form-label">Autor *</label>
+                        <input type="text" id="autor" name="autor" class="form-input" required 
+                               placeholder="Nome do verificador">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipo" class="form-label">Tipo de Verificação *</label>
+                        <select id="tipo" name="tipo" class="form-select" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="FAKE">É FAKE</option>
+                            <option value="TRUE">É TRUE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagem" class="form-label">Imagem *</label>
+                    <input type="file" id="imagem" name="imagem" class="form-input" 
+                           accept="image/*" required>
+                    <small style="color: white; font-size: 12px; margin-top: 5px; display: block;">
+                        Formatos aceitos: JPG, PNG, WEBP, AVIF (máx. 5MB)
+                    </small>
+                    <div id="preview-container" style="margin-top: 10px; display: none;">
+                        <img id="image-preview" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 2px solid #9ca656;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="link" class="form-label">Link (opcional)</label>
+                    <input type="url" id="link" name="link" class="form-input" 
+                           placeholder="https://exemplo.com">
+                </div>
+
+                <div class="submit-container">
+                    <button type="submit" class="submit-button">Cadastrar Notícia</button>
+                    <a href="index.html" class="cancel-button">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Prévia da imagem selecionada
+        document.getElementById('imagem').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const previewContainer = document.getElementById('preview-container');
+            const previewImage = document.getElementById('image-preview');
+            
+            if (file) {
+                // Verificar se é uma imagem
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContainer.style.display = 'none';
+                    alert('Por favor, selecione apenas arquivos de imagem.');
+                }
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        });
+
+        document.getElementById('cadastro-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const messageContainer = document.getElementById('message-container');
+            
+            // Mostrar loading
+            messageContainer.innerHTML = '<div class="success-message">Cadastrando notícia...</div>';
+            
+            fetch('cadastrar-noticia.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageContainer.innerHTML = '<div class="success-message">' + data.message + '</div>';
+                    this.reset(); // Limpar o formulário
+                    
+                    // Redirecionar para homepage após 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    messageContainer.innerHTML = '<div class="error-message">' + data.message + '</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                messageContainer.innerHTML = '<div class="error-message">Erro ao cadastrar notícia. Tente novamente.</div>';
+            });
+        });
+    </script>
+</body>
+</html> 

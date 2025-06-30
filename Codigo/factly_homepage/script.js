@@ -70,12 +70,27 @@ function renderNoticias() {
   noticiasParaExibir.forEach(noticia => {
     const card = document.createElement('div');
     card.className = 'news-card';
+    
+    // Determinar o tipo da notícia (usar 'tipo' se existir, senão tentar extrair do título)
+    let tipoNoticia = noticia.tipo || 'FAKE'; // Padrão é FAKE se não especificado
+    let labelClass = tipoNoticia === 'TRUE' ? 'true-label' : 'fake-label';
+    let labelText = tipoNoticia === 'TRUE' ? 'É TRUE' : 'É FAKE';
+    
+    // Se não tem o campo tipo, tentar detectar pelo título
+    if (!noticia.tipo) {
+      if (noticia.titulo.toLowerCase().includes('é true')) {
+        tipoNoticia = 'TRUE';
+        labelClass = 'true-label';
+        labelText = 'É TRUE';
+      }
+    }
+    
     card.innerHTML = `
       <div class="news-image-container">
         <img src="${noticia.imagem}" alt="${noticia.titulo}" class="news-image">
       </div>
       <div class="news-content">
-        <h3 class="news-headline"><span class="fake-label">É FAKE</span> ${noticia.titulo}</h3>
+        <h3 class="news-headline"><span class="${labelClass}">${labelText}</span> ${noticia.titulo}</h3>
         <p>${noticia.descricao}</p>
         <a href="${noticia.link}" class="read-more">Saiba mais...</a>
         <div class="news-footer">
