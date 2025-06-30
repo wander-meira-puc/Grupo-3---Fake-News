@@ -19,15 +19,114 @@
     </div>
 
     <div class="form-box">
-      <form action="pagina-principal.html" method="GET">
-        <input type="email" placeholder="Email ou telefone" required />
-        <input type="password" placeholder="Senha" required />
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Email ou telefone" required />
+        <input type="password" id="password" placeholder="Senha" required />
         <button type="submit" class="btn-login">Entrar</button>
         <a href="../factly_recuperacao_senha/index.html" class="forgot">Esqueceu a senha?</a>
         <hr />
         <button type="button" class="create-btn" onclick="window.location.href='../factly_cadastro/index.html'">Criar nova conta</button>
       </form>
     </div>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        
+        // Mostrar feedback visual
+        const loginBtn = document.querySelector('.btn-login');
+        const originalText = loginBtn.textContent;
+        loginBtn.textContent = 'Entrando...';
+        loginBtn.disabled = true;
+        
+        // Simular delay de autenticação
+        setTimeout(() => {
+          let loginSucesso = false;
+          
+          // 1. Verificar usuário cadastrado no localStorage
+          try {
+            const usuarioCadastrado = localStorage.getItem('usuarioCadastrado');
+            if (usuarioCadastrado) {
+              const userData = JSON.parse(usuarioCadastrado);
+              if (userData.email === email && userData.senha === password) {
+                loginSucesso = true;
+                console.log('✅ Login com usuário cadastrado:', userData.nome);
+              }
+            }
+          } catch (error) {
+            console.error('Erro ao ler dados do localStorage:', error);
+          }
+          
+          // 2. Verificar credenciais de teste padrão
+          if (!loginSucesso) {
+            const credenciaisTeste = [
+              { email: 'admin@factly.com', senha: '123456', nome: 'Administrador' },
+              { email: 'user@teste.com', senha: 'teste123', nome: 'Usuário Teste' },
+              { email: 'luan@factly.com', senha: '123', nome: 'Luan Costa' }
+            ];
+            
+            const credencialValida = credenciaisTeste.find(cred => 
+              cred.email === email && cred.senha === password
+            );
+            
+            if (credencialValida) {
+              loginSucesso = true;
+              console.log('✅ Login com credencial de teste:', credencialValida.nome);
+            }
+          }
+          
+          // 3. Resultado do login
+          if (loginSucesso) {
+            console.log('✅ Login realizado com sucesso');
+            console.log('📧 Email:', email);
+            
+            // Salvar sessão
+            sessionStorage.setItem('usuarioLogado', JSON.stringify({
+              email: email,
+              loginTime: new Date().toISOString()
+            }));
+            
+            loginBtn.textContent = '✅ Sucesso!';
+            loginBtn.style.backgroundColor = '#2e7d32';
+            
+            // Redirecionar para a homepage
+            setTimeout(() => {
+              window.location.href = '../factly_homepage/index.html';
+            }, 1000);
+            
+          } else {
+            console.log('❌ Credenciais inválidas');
+            loginBtn.textContent = originalText;
+            loginBtn.disabled = false;
+            loginBtn.style.backgroundColor = '#d32f2f';
+            
+            alert('❌ Email ou senha incorretos!\n\n📝 Credenciais de teste:\n• admin@factly.com / 123456\n• user@teste.com / teste123\n• luan@factly.com / 123');
+            
+            // Restaurar cor original após 3 segundos
+            setTimeout(() => {
+              loginBtn.style.backgroundColor = '#9ca656';
+            }, 3000);
+          }
+        }, 1500); // Simular delay de 1.5s
+      });
+      
+      // Debug: mostrar dados de usuário cadastrado
+      console.log('🔍 Verificando usuário cadastrado...');
+      try {
+        const usuarioCadastrado = localStorage.getItem('usuarioCadastrado');
+        if (usuarioCadastrado) {
+          const userData = JSON.parse(usuarioCadastrado);
+          console.log('👤 Usuário encontrado:', userData.nome, userData.email);
+        } else {
+          console.log('👤 Nenhum usuário cadastrado encontrado');
+        }
+      } catch (error) {
+        console.error('Erro ao verificar usuário:', error);
+      }
+    </script>
   </div>
 
   <footer>

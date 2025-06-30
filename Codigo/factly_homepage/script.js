@@ -234,7 +234,67 @@ function renderDestaques() {
   `).join('');
 }
 
+// Função para verificar status de login e atualizar navbar
+function verificarStatusLogin() {
+  try {
+    const usuarioLogado = sessionStorage.getItem('usuarioLogado');
+    const cadastroLink = document.getElementById('cadastro-link');
+    const loginLink = document.getElementById('login-link');
+    const userInfo = document.getElementById('user-info');
+    const logoutLink = document.getElementById('logout-link');
+    
+    if (usuarioLogado) {
+      const userData = JSON.parse(usuarioLogado);
+      const email = userData.email;
+      const nome = email.split('@')[0]; // Usar primeira parte do email como nome de exibição
+      
+      // Esconder links de cadastro e login
+      cadastroLink.style.display = 'none';
+      loginLink.style.display = 'none';
+      
+      // Mostrar informações do usuário e botão de logout
+      userInfo.textContent = `👤 Olá, ${nome}`;
+      userInfo.style.display = 'inline';
+      logoutLink.style.display = 'inline';
+      
+      console.log('✅ Usuário logado:', email);
+    } else {
+      // Mostrar links de cadastro e login
+      cadastroLink.style.display = 'inline';
+      loginLink.style.display = 'inline';
+      
+      // Esconder informações do usuário
+      userInfo.style.display = 'none';
+      logoutLink.style.display = 'none';
+      
+      console.log('👤 Usuário não logado');
+    }
+  } catch (error) {
+    console.error('Erro ao verificar status de login:', error);
+  }
+}
+
+// Função para fazer logout
+function realizarLogout() {
+  sessionStorage.removeItem('usuarioLogado');
+  console.log('👋 Logout realizado');
+  verificarStatusLogin(); // Atualizar a navbar
+  alert('👋 Logout realizado com sucesso!');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Verificar status de login na inicialização
+  verificarStatusLogin();
+  
+  // Adicionar event listener para o botão de logout
+  const logoutLink = document.getElementById('logout-link');
+  if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      realizarLogout();
+    });
+  }
+  
   // Carregar notícias e avaliações simultaneamente com timestamp para evitar cache
   const timestamp = new Date().getTime();
   Promise.all([
@@ -257,16 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
     debugDestaques.forEach((noticia, index) => {
       console.log(`${index + 1}. ID: ${noticia.id} | Título: "${noticia.titulo}" | Nota: ${noticia.mediaAvaliacao.toFixed(1)} (${noticia.numeroAvaliacoes} avaliações) | Pontuação: ${noticia.pontuacao.toFixed(1)}`);
     });
-    
-    // Criar botão de debug temporário
-    const debugBtn = document.createElement('button');
-    debugBtn.textContent = '🔄 Recarregar Notícias (Debug)';
-    debugBtn.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 9999; background: #ff6b6b; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;';
-    debugBtn.onclick = () => {
-      console.log('🔄 Forçando recarregamento das notícias...');
-      location.reload();
-    };
-    document.body.appendChild(debugBtn);
     
     renderNoticias();
     renderDestaques(); // Renderizar os destaques também

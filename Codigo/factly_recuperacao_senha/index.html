@@ -35,18 +35,97 @@
       window.location.href = '../factly_Pagina_login/index.html';
     };
 
-    document.querySelector('.btn-login').onclick = function(event) {
-      event.preventDefault();
+    // Funcionalidade de login no topo (similar ao sistema principal)
+    document.getElementById('entrar-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
       const email = document.getElementById('login-email').value.trim();
       const senha = document.getElementById('login-senha').value.trim();
-
-      // Troque pelos dados corretos do seu sistema
-      if (email === "usuario@teste.com" && senha === "123456") {
-        window.location.href = "../factly_homepage/index.html";
-      } else {
-        alert("Email ou senha incorretos!");
+      
+      if (!email || !senha) {
+        alert('Por favor, preencha email e senha!');
+        return;
       }
-    };
+      
+      // Verificar credenciais (mesma lógica do login principal)
+      let loginSucesso = false;
+      
+      // Verificar usuário cadastrado
+      try {
+        const usuarioCadastrado = localStorage.getItem('usuarioCadastrado');
+        if (usuarioCadastrado) {
+          const userData = JSON.parse(usuarioCadastrado);
+          if (userData.email === email && userData.senha === senha) {
+            loginSucesso = true;
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao verificar usuário:', error);
+      }
+      
+      // Verificar credenciais de teste
+      if (!loginSucesso) {
+        const credenciaisTeste = [
+          { email: 'admin@factly.com', senha: '123456' },
+          { email: 'user@teste.com', senha: 'teste123' },
+          { email: 'luan@factly.com', senha: '123' }
+        ];
+        
+        loginSucesso = credenciaisTeste.some(cred => 
+          cred.email === email && cred.senha === senha
+        );
+      }
+      
+      if (loginSucesso) {
+        // Salvar sessão
+        sessionStorage.setItem('usuarioLogado', JSON.stringify({
+          email: email,
+          loginTime: new Date().toISOString()
+        }));
+        
+        console.log('✅ Login realizado com sucesso na página de recuperação');
+        window.location.href = '../factly_homepage/index.html';
+      } else {
+        alert('❌ Email ou senha incorretos!');
+      }
+    });
+
+    // Funcionalidade do botão "Pesquisar" para recuperação de senha
+    document.querySelector('.search').addEventListener('click', function() {
+      const emailRecuperacao = document.querySelector('input[placeholder="Email ou número de celular"]').value.trim();
+      
+      if (!emailRecuperacao) {
+        alert('Por favor, digite seu email ou telefone!');
+        return;
+      }
+      
+      // Verificar se o email existe no sistema
+      try {
+        const usuarioCadastrado = localStorage.getItem('usuarioCadastrado');
+        if (usuarioCadastrado) {
+          const userData = JSON.parse(usuarioCadastrado);
+          if (userData.email === emailRecuperacao) {
+            alert(`✅ Conta encontrada!\n\nNome: ${userData.nome} ${userData.sobrenome}\nEmail: ${userData.email}\n\n⚠️ Em um sistema real, um email de recuperação seria enviado.`);
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao verificar usuário:', error);
+      }
+      
+      // Verificar emails de teste
+      const emailsTeste = ['admin@factly.com', 'user@teste.com', 'luan@factly.com'];
+      if (emailsTeste.includes(emailRecuperacao)) {
+        alert('✅ Conta encontrada!\n\n⚠️ Em um sistema real, um email de recuperação seria enviado.');
+      } else {
+        alert('❌ Nenhuma conta encontrada com este email.');
+      }
+    });
+
+    // Funcionalidade do botão "Cancelar"
+    document.querySelector('.cancel').addEventListener('click', function() {
+      window.location.href = '../factly_Pagina_login/index.html';
+    });
   </script>
 </body>
 </html>
