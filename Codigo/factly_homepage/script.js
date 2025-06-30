@@ -107,6 +107,38 @@ function renderNoticias() {
   attachRatingListeners();
 }
 
+function selecionarDestaques(noticias) {
+    // Ordena as notícias pela quantidade de caracteres na descrição
+    noticias.sort((a, b) => b.descricao.length - a.descricao.length);
+    
+    // Seleciona as 3 primeiras notícias
+    return noticias.slice(0, 3);
+}
+
+function renderDestaques() {
+    const destaquesDiv = document.querySelector('.destaques'); // Certifique-se de que essa div existe no HTML
+    destaquesDiv.innerHTML = ''; // Limpa o conteúdo anterior
+
+    const destaques = selecionarDestaques(noticias);
+    
+    destaques.forEach(noticia => {
+        const destaqueCard = document.createElement('div');
+        destaqueCard.className = 'destaque-card';
+        
+        destaqueCard.innerHTML = `
+            <div class="news-image-container">
+                <img src="${noticia.imagem}" alt="${noticia.titulo}" class="news-image">
+            </div>
+            <div class="news-content">
+                <h3 class="news-headline">${noticia.titulo}</h3>
+                <p>${noticia.descricao}</p>
+                <a href="/Codigo/factly_detalhes/noticia-${noticia.id}.html" class="read-more">Saiba mais...</a>
+            </div>
+        `;
+        destaquesDiv.appendChild(destaqueCard);
+    });
+}
+
 function pesquisarNoticias(termo) {
   const termoPesquisa = termo.toLowerCase().trim();
   
@@ -131,13 +163,14 @@ document.addEventListener("DOMContentLoaded", () => {
       noticias = data;
       noticiasFiltradas = [...noticias]; // Inicializar com todas as notícias
       renderNoticias();
+      renderDestaques(); // Chama a função para renderizar os destaques
     });
 
   // Event listener para a barra de pesquisa
   const searchInput = document.querySelector('.search-input');
   searchInput.addEventListener('input', (e) => {
     pesquisarNoticias(e.target.value);
-    });
+  });
 
   document.getElementById('prev-news').addEventListener('click', () => {
     if (currentPage > 0) {
