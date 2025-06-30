@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Esqueceu sua senha? - factly</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="logo">factly</h1>
+    <div class="topbar-login">
+      <input type="email" id="login-email" placeholder="Email ou telefone" required />
+      <input type="password" id="login-senha" placeholder="Senha" required />
+      <button id="entrar-btn">Entrar</button>
+      <a href="../factly_Pagina_login/index.html" class="forgot-link"></a>
+      <a href="../factly_cadastro/index.html" class="forgot-link">Criar nova conta</a>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="recovery-box">
+      <h2>Encontre sua conta</h2>
+      <p>Insira seu email ou número de celular para procurar sua conta.</p>
+      <input type="text" placeholder="Email ou número de celular">
+      <div class="button-group">
+        <button class="cancel">Cancelar</button>
+        <button class="search">Pesquisar</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('entrar-btn').onclick = function() {
+      window.location.href = '../factly_Pagina_login/index.html';
+    };
+
+    document.querySelector('.btn-login').onclick = function(event) {
+      event.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const senha = document.getElementById('login-senha').value.trim();
+
+      // Troque pelos dados corretos do seu sistema
+      if (email === "usuario@teste.com" && senha === "123456") {
+        window.location.href = "../factly_homepage/index.html";
+      } else {
+        alert("Email ou senha incorretos!");
+      }
+    };
+  </script>
+</body>
+</html>

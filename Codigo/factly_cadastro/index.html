@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro | factly</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="container">
+    <div class="logo">factly</div>
+    <h2>Criar uma nova conta</h2>
+    <p>É rápido e fácil.</p>
+
+    <!-- Formulário com ID para o script funcionar -->
+    <form id="cadastroForm">
+      <div class="name-fields">
+        <input type="text" id="nome" placeholder="Nome" required />
+        <input type="text" id="sobrenome" placeholder="Sobrenome" required />
+      </div>
+
+      <label>Data de nascimento</label>
+      <div class="birth-fields">
+        <select id="dia" required>
+          <option value="" disabled selected>Dia</option>
+          <!-- Dias 1 a 31 -->
+          
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+          <option>11</option>
+          <option>12</option>
+          <option>13</option>
+          <option>14</option>
+          <option>15</option>
+          <option>16</option>
+          <option>17</option>
+          <option>18</option>
+          <option>19</option>
+          <option>20</option>
+          <option>21</option>
+          <option>22</option>
+          <option>23</option>
+          <option>24</option>
+          <option>25</option>
+          <option>26</option>
+          <option>27</option>
+          <option>28</option>
+          <option>29</option>
+          <option>30</option>
+          <option>31</option>
+        </select>
+        <select id="mes" required>
+          <option value="" disabled selected>Mês</option>
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+        <select id="ano" required>
+          <option value="" disabled selected>Ano</option>
+          <!-- Anos de 2025 a 1950 -->
+          <script>
+            for(let ano = 2025; ano >= 1950; ano--) {
+              document.write(`<option value="${ano}">${ano}</option>`);
+            }
+          </script>
+        </select>
+      </div>
+
+      <label>Gênero</label>
+      <div class="gender-options">
+        <label><input type="radio" name="gender" value="Feminino" required /> Feminino</label>
+        <label><input type="radio" name="gender" value="Masculino" required /> Masculino</label>
+        <label><input type="radio" name="gender" value="Outro" required /> Outro</label>
+      </div>
+
+      <input type="email" id="email" placeholder="Celular ou email" required />
+      <input type="password" id="senha" placeholder="Nova senha" required />
+
+      <p style="font-size: 12px;">
+        Ao clicar em Cadastre-se, você concorda com nossos <a href="#">Termos</a>,
+        <a href="#">Política de Privacidade</a> e <a href="#">Cookies</a>.
+      </p>
+
+      <button type="submit" class="signup-btn">Cadastre-se</button>
+      <a href="../factly_Pagina_login/index.html" class="login-link">Já tem uma conta?</a>
+    </form>
+  </div>
+
+  <!-- Script para armazenar os dados -->
+  <script>
+    document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // pega valores
+      const nome = document.getElementById('nome').value;
+      const sobrenome = document.getElementById('sobrenome').value;
+      const dia = document.getElementById('dia').value;
+      const mes = document.getElementById('mes').value;
+      const ano = document.getElementById('ano').value;
+      const genero = document.querySelector('input[name="gender"]:checked').value;
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+
+      // cria um objeto com os dados
+      const usuario = {
+        nome,
+        sobrenome,
+        dataNascimento: `${dia}/${mes}/${ano}`,
+        genero,
+        email,
+        senha
+      };
+
+      // salva no localStorage
+      localStorage.setItem('usuarioCadastrado', JSON.stringify(usuario));
+
+      alert('Cadastro realizado com sucesso!');
+
+      // redirecionar para a tela de login
+      window.location.href = '../factly_Pagina_login/index.html';
+    });
+  </script>
+</body>
+</html>
