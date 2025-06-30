@@ -57,6 +57,7 @@ function attachRatingListeners() {
 
 let noticias = [];
 let noticiasFiltradas = [];
+let avaliacoes = {};
 let currentPage = 0;
 const noticiasPorPagina = 4;
 
@@ -66,6 +67,10 @@ function renderNoticias() {
   const start = currentPage * noticiasPorPagina;
   const end = start + noticiasPorPagina;
   const noticiasParaExibir = noticiasFiltradas.slice(start, end);
+
+  console.log(`🔄 Renderizando página ${currentPage + 1}`);
+  console.log(`📊 Total de notícias filtradas: ${noticiasFiltradas.length}`);
+  console.log(`📄 Notícias para exibir (${start}-${end}):`, noticiasParaExibir.map(n => `ID ${n.id}: ${n.titulo.substring(0, 30)}...`));
 
   noticiasParaExibir.forEach(noticia => {
     const card = document.createElement('div');
@@ -92,7 +97,7 @@ function renderNoticias() {
       <div class="news-content">
         <h3 class="news-headline"><span class="${labelClass}">${labelText}</span> ${noticia.titulo}</h3>
         <p>${noticia.descricao}</p>
-        <a href="/Codigo/factly_detalhes/noticia-${noticia.id}.html" class="read-more">Saiba mais...</a>
+        <a href="${noticia.link}" class="read-more">Saiba mais...</a>
         <div class="news-footer">
           <div class="user-info">
             <span class="user-icon">👤</span>
@@ -105,38 +110,6 @@ function renderNoticias() {
     grid.appendChild(card);
   });
   attachRatingListeners();
-}
-
-function selecionarDestaques(noticias) {
-    // Ordena as notícias pela quantidade de caracteres na descrição
-    noticias.sort((a, b) => b.descricao.length - a.descricao.length);
-    
-    // Seleciona as 3 primeiras notícias
-    return noticias.slice(0, 3);
-}
-
-function renderDestaques() {
-    const destaquesDiv = document.querySelector('.destaques'); // Certifique-se de que essa div existe no HTML
-    destaquesDiv.innerHTML = ''; // Limpa o conteúdo anterior
-
-    const destaques = selecionarDestaques(noticias);
-    
-    destaques.forEach(noticia => {
-        const destaqueCard = document.createElement('div');
-        destaqueCard.className = 'destaque-card';
-        
-        destaqueCard.innerHTML = `
-            <div class="news-image-container">
-                <img src="${noticia.imagem}" alt="${noticia.titulo}" class="news-image">
-            </div>
-            <div class="news-content">
-                <h3 class="news-headline">${noticia.titulo}</h3>
-                <p>${noticia.descricao}</p>
-                <a href="/Codigo/factly_detalhes/noticia-${noticia.id}.html" class="read-more">Saiba mais...</a>
-            </div>
-        `;
-        destaquesDiv.appendChild(destaqueCard);
-    });
 }
 
 function pesquisarNoticias(termo) {
@@ -156,15 +129,167 @@ function pesquisarNoticias(termo) {
   renderNoticias();
 }
 
+// Função para calcular a média de avaliação de uma notícia
+function calcularMediaAvaliacao(noticiaId) {
+  const avaliacao = avaliacoes[noticiaId];
+  if (!avaliacao || avaliacao.count === 0) {
+    return 0;
+  }
+  return avaliacao.total / avaliacao.count;
+}
+
+// Função para selecionar os melhores destaques
+function selecionarDestaques(noticias) {
+  // Cria uma cópia das notícias com pontuação
+  const noticiasComPontuacao = noticias.map(noticia => {
+    let pontuacao = 0;
+    const mediaAvaliacao = calcularMediaAvaliacao(noticia.id);
+    
+    // Prioriza notícias com avaliações altas (peso maior)
+    if (mediaAvaliacao > 0) {
+      pontuacao += mediaAvaliacao * 30; // Peso maior para avaliações
+    }
+    
+    // Prioriza notícias TRUE (verificadas como verdadeiras)
+    if (noticia.tipo && noticia.tipo.toLowerCase() === 'true') {
+      pontuacao += 25;
+    }
+    
+    // Considera o número de avaliações (mais avaliações = mais confiável)
+    const avaliacaoData = avaliacoes[noticia.id];
+    if (avaliacaoData && avaliacaoData.count > 0) {
+      pontuacao += Math.min(avaliacaoData.count * 5, 20);
+    }
+    
+    // Considera o tamanho da descrição (mais informativo)
+    if (noticia.descricao) {
+      pontuacao += Math.min(noticia.descricao.length / 30, 15);
+    }
+    
+    // Prioriza notícias mais recentes (se tiver ID maior)
+    pontuacao += noticia.id * 1;
+    
+    return { 
+      ...noticia, 
+      pontuacao,
+      mediaAvaliacao: mediaAvaliacao,
+      numeroAvaliacoes: avaliacaoData ? avaliacaoData.count : 0
+    };
+  });
+  
+  // Ordena por pontuação e retorna os 3 melhores
+  return noticiasComPontuacao
+    .sort((a, b) => b.pontuacao - a.pontuacao)
+    .slice(0, 3);
+}
+
+// Função para renderizar os destaques
+function renderDestaques() {
+  const destaquesContainer = document.querySelector('.destaques');
+  
+  if (!destaquesContainer) return;
+  
+  const destaques = selecionarDestaques(noticias);
+  
+  destaquesContainer.innerHTML = destaques.map((noticia, index) => `
+    <div class="destaque-card">
+      <div class="news-image-container">
+        <img src="${noticia.imagem}" alt="${noticia.titulo}" class="news-image">
+      </div>
+      <div class="news-content">
+        <h3 class="news-headline">${noticia.titulo}</h3>
+        <p class="news-description">${noticia.descricao}</p>
+        
+        <div class="destaque-info-section">
+          <div class="destaque-status-rating">
+            <span class="${noticia.tipo && noticia.tipo.toLowerCase() === 'true' ? 'true-label' : 'fake-label'}">
+              ${noticia.tipo && noticia.tipo.toLowerCase() === 'true' ? 'É TRUE ✓' : 'É FAKE ✗'}
+            </span>
+            <div class="rating">
+              ${'★'.repeat(Math.floor(noticia.mediaAvaliacao))}${'☆'.repeat(5 - Math.floor(noticia.mediaAvaliacao))}
+              <span style="color: #ffd700; font-size: 14px;">
+                ${noticia.mediaAvaliacao.toFixed(1)} 
+                ${noticia.numeroAvaliacoes > 0 ? `(${noticia.numeroAvaliacoes})` : '(0)'}
+              </span>
+            </div>
+          </div>
+          
+          <div class="destaque-author-badge">
+            <div class="user-info">
+              <span class="user-icon">👤</span>
+              <span class="user-text">Por: ${noticia.autor}</span>
+            </div>
+            <div class="top-badge">
+              #${index + 1} Top Destaque
+            </div>
+          </div>
+        </div>
+        
+        ${noticia.link ? `
+        <div class="destaque-read-more">
+          <a href="${noticia.link}" target="_blank" class="read-more-destaque">Leia mais</a>
+        </div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  fetch('noticias.json')
-    .then(response => response.json())
-    .then(data => {
-      noticias = data;
-      noticiasFiltradas = [...noticias]; // Inicializar com todas as notícias
-      renderNoticias();
-      renderDestaques(); // Chama a função para renderizar os destaques
+  // Carregar notícias e avaliações simultaneamente com timestamp para evitar cache
+  const timestamp = new Date().getTime();
+  Promise.all([
+    fetch(`noticias.json?t=${timestamp}`).then(response => response.json()),
+    fetch(`avaliacoes.json?t=${timestamp}`).then(response => response.json())
+  ])
+  .then(([noticiasData, avaliacoesData]) => {
+    noticias = noticiasData;
+    avaliacoes = avaliacoesData;
+    noticiasFiltradas = [...noticias]; // Inicializar com todas as notícias
+    
+    console.log('📊 Avaliações carregadas:', avaliacoes);
+    console.log('📰 Notícias carregadas:', noticias.length);
+    console.log('📋 Lista de IDs das notícias:', noticias.map(n => n.id));
+    console.log('🆕 Notícia mais recente:', noticias[0]);
+    
+    // Debug: mostrar ranking de destaques
+    const debugDestaques = selecionarDestaques(noticias);
+    console.log('🏆 Top 3 Destaques (ordenados por nota):');
+    debugDestaques.forEach((noticia, index) => {
+      console.log(`${index + 1}. ID: ${noticia.id} | Título: "${noticia.titulo}" | Nota: ${noticia.mediaAvaliacao.toFixed(1)} (${noticia.numeroAvaliacoes} avaliações) | Pontuação: ${noticia.pontuacao.toFixed(1)}`);
     });
+    
+    // Criar botão de debug temporário
+    const debugBtn = document.createElement('button');
+    debugBtn.textContent = '🔄 Recarregar Notícias (Debug)';
+    debugBtn.style.cssText = 'position: fixed; top: 10px; right: 10px; z-index: 9999; background: #ff6b6b; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;';
+    debugBtn.onclick = () => {
+      console.log('🔄 Forçando recarregamento das notícias...');
+      location.reload();
+    };
+    document.body.appendChild(debugBtn);
+    
+    renderNoticias();
+    renderDestaques(); // Renderizar os destaques também
+  })
+  .catch(error => {
+    console.error('❌ Erro ao carregar dados:', error);
+    // Se houver erro, carregar só as notícias sem cache
+    const timestamp = new Date().getTime();
+    fetch(`noticias.json?t=${timestamp}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('⚠️ Carregado apenas notícias (sem avaliações)');
+        console.log('📰 Notícias carregadas:', data.length);
+        console.log('📋 IDs das notícias:', data.map(n => n.id));
+        noticias = data;
+        noticiasFiltradas = [...noticias];
+        renderNoticias();
+        renderDestaques();
+      })
+      .catch(err => {
+        console.error('❌ Erro crítico ao carregar notícias:', err);
+      });
+  });
 
   // Event listener para a barra de pesquisa
   const searchInput = document.querySelector('.search-input');
@@ -175,13 +300,18 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('prev-news').addEventListener('click', () => {
     if (currentPage > 0) {
       currentPage--;
+      console.log(`⬅️ Página anterior: ${currentPage + 1}`);
       renderNoticias();
     }
   });
+  
   document.getElementById('next-news').addEventListener('click', () => {
     if ((currentPage + 1) * noticiasPorPagina < noticiasFiltradas.length) {
       currentPage++;
+      console.log(`➡️ Próxima página: ${currentPage + 1}`);
       renderNoticias();
+    } else {
+      console.log('⚠️ Já está na última página');
     }
   });
 });
